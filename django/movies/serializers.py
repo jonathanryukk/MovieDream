@@ -1,22 +1,38 @@
 from rest_framework import serializers
-from .models import Genre, Movie, UserRank
+from .models import Movie, Review, UserRank
 
-class GenreSerializer(serializers.ModelSerializer):
+class ReviewSerializer(serializers.ModelSerializer):
 
     class Meta:
-        model = Genre
+        model = Review
         fields = '__all__'
+        read_only_fields = ('movie',)
 
+class ReviewListSerializer(serializers.ModelSerializer):
+  movie_title = serializers.SerializerMethodField()
+
+  def get_movie_title(self, obj):
+    return obj.movie.title
+
+  userName = serializers.SerializerMethodField()
+  
+  def get_userName(self,obj):
+    return obj.user.username
+
+  class Meta:
+    model = Review
+    fields = ('id', 'user', 'userName', 'content', 'movie', 'rank', 'movie_title')
+    read_only_fields = ('user',)
+
+class MovieListSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Movie
+        fields = '__all__'
 
 class MovieSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Movie
         fields = '__all__'
-
-
-class RankSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = UserRank
-        fields = '__all__'
-        read_only_fields = ('user', 'movie')
+        read_only_fields = ('like_users', 'user_rank')

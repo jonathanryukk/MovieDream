@@ -35,7 +35,7 @@ INSTALLED_APPS = [
     'accounts',
     'community',
     'movies',
-    'review',
+
     
 
     # 3rd party

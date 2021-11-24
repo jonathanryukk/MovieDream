@@ -1,32 +1,26 @@
 <template>
-  <div>
-    <h1>Signup</h1>
-    <div>
-      <label for="username">사용자 이름: </label>
-      <input 
-        type="text" 
-        id="username"
-        v-model="credentials.username"
-      >
+  <div class="wrapper fadeInDown">
+    <div id="formContent">
+      <!-- Tabs Titles -->
+
+      <!-- Icon -->
+      <br>
+      <h2>Welcome To MovieDream</h2>
+      <!-- Login Form -->
+      <form>
+        <input type="text" id="username" placeholder="username" v-model="credentials.username">
+        <input type="text" id="password" placeholder="password" v-model="credentials.password">
+        <input type="text" id="passwordConfirmation" placeholder="password confirmation" v-model="credentials.passwordConfirmation" @keypress.enter="login(credentials)">
+      </form>
+
+      <!-- Remind Passowrd -->
+      <div id="formFooter">
+        <a class="underlineHover" href="">
+          <button @click="signup">회원가입</button>
+        </a>
+      </div>
+
     </div>
-    <div>
-      <label for="password">비밀번호: </label>
-      <input 
-        type="password" 
-        id="password"
-        v-model="credentials.password"
-      >
-    </div>
-    <div>
-      <label for="passwordConfirmation">비밀번호 확인: </label>
-      <input 
-        type="password" 
-        id="passwordConfirmation"
-        v-model="credentials.passwordConfirmation"
-        @keyup.enter="signup"
-      >
-    </div>
-    <button @click="signup">회원가입</button>
   </div>
 </template>
 

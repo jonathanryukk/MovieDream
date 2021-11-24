@@ -1,57 +1,142 @@
-from django.shortcuts import render, get_object_or_404
-from rest_framework.decorators import api_view, permission_classes, authentication_classes
-from rest_framework.permissions import IsAuthenticated
+from rest_framework.decorators import api_view
 from rest_framework.response import Response
-from rest_framework_jwt.authentication import JSONWebTokenAuthentication
-from .models import Genre, Movie, UserRank
-from .serializers import GenreSerializer, MovieSerializer, RankSerializer
 
+from django.shortcuts import  get_object_or_404
+from .models import Movie, Review, UserRank
+from django.contrib.auth import get_user_model
+from django.http import JsonResponse
+
+from django.conf import settings
+from .serializers import  MovieSerializer, ReviewListSerializer, ReviewSerializer
+from rest_framework.decorators import authentication_classes, permission_classes
+from rest_framework.permissions import IsAuthenticated
+from rest_framework_jwt.authentication import JSONWebTokenAuthentication
+
+# Create your views here.
 @api_view(['GET'])
-def movie_list(request):
-    movies = Movie.objects.all()
-    serializer = MovieSerializer(movies, many=True)
+def movies(request):
+    movie_list = get_object_or_404(Movie)
+    serializer = MovieSerializer(movie_list, many=True)
     return Response(serializer.data)
 
-
 @api_view(['GET'])
-@authentication_classes([JSONWebTokenAuthentication])
-@permission_classes([IsAuthenticated])
 def movie_detail(request, movie_pk):
     movie = get_object_or_404(Movie, pk=movie_pk)
     serializer = MovieSerializer(movie)
     return Response(serializer.data)
 
-@api_view(['GET', 'POST'])
+@api_view(['GET'])
 @authentication_classes([JSONWebTokenAuthentication])
 @permission_classes([IsAuthenticated])
-def rank_list_or_create(request, movie_id):
-    movie = get_object_or_404(Movie, id=movie_id)
-    if request.method=='GET':
-        rank = movie.rank_users.all()
-        serializer= RankSerializer(rank, many=True)
-        return Response(serializer.data)
-    else:
-        serializer = RankSerializer(data=request.data)
-        if serializer.is_valid(raise_exception=True):
-            serializer.save(user=request.user, movie=movie)
-            return Response(serializer.data)
+def reviews(request, movie_pk):
+    review_list = Review.objects.all().filter(movie_id=movie_pk)
+    serializer = ReviewListSerializer(review_list, many=True)
+    return Response(serializer.data)
 
-@api_view(['DELETE'])
-@authentication_classes([JSONWebTokenAuthentication])
+@api_view(['POST'])
 @permission_classes([IsAuthenticated])
-def rank_delete(request, rating_pk):
-    rating = get_object_or_404(UserRank, pk=rating_pk)
-    rating.delete()
-    return Response({'id': rating_pk})
-
-@api_view(['PUT'])
-@authentication_classes([JSONWebTokenAuthentication])
-@permission_classes([IsAuthenticated])
-def rank_update(request,movie_pk):
-    movie = get_object_or_404(Movie, id=movie_pk)
-    rating = get_object_or_404(UserRank, user=request.user)
-    rating.delete()
-    serializer = RankSerializer(data=request.data)
+def review_create(request, movie_pk):
+    movie = get_object_or_404(Movie, pk=movie_pk)
+    serializer = ReviewSerializer(data=request.data)
+    UserRank.objects.create(user=request.user, movie=movie,rank =request.data['rank'])
     if serializer.is_valid(raise_exception=True):
         serializer.save(user=request.user, movie=movie)
         return Response(serializer.data)
+
+
+
+@api_view(['PUT', 'DELETE'])
+@authentication_classes([JSONWebTokenAuthentication])
+@permission_classes([IsAuthenticated])
+def review_update_delete(request, review_pk):
+    review = get_object_or_404(Review, pk=review_pk)
+    if request.method == 'PUT':
+        if review.user == request.user:
+            userrank = review.user.userrank_set.filter(user=review.user, movie=review.movie)[0]
+            userrank.rank =request.data['rank']
+            userrank.save()
+            serializer = ReviewSerializer(instance=review,data=request.data)
+            if serializer.is_valid(raise_exception=True):
+                serializer.save()
+                return Response(serializer.data)
+
+
+    if request.method == 'DELETE':
+        if request.user == review.user:
+            review.delete()
+            UserRank.objects.filter(user_id=request.user.id, movie_id=review.movie.id).delete()
+            return JsonResponse({'message':'게시글이 삭제되었습니다.', 'success': True })
+        else:
+            return JsonResponse({'message':'게시글을 작성한 유저만 삭제할 수 있습니다.', 'success': False })
+
+
+
+@api_view(['POST'])
+def recommend(request):
+    me_like = request.data.get('me_like')
+
+    # 인기순
+    favorite_movies = Movie.objects.all().order_by('-vote_average')[:10]
+    favorite_serialize = MovieSerializer(favorite_movies, many=True)
+    # 리뷰 기반 장르기반 추천
+    user_movies_review = []
+
+    # 리뷰 기반 장름별
+    reviews = Review.objects.all()
+    for review in reviews:
+        movie = Movie.objects.get(pk=review.movie_id)
+        if not movie in user_movies_review:
+            user_movies_review.append(movie)
+
+    # 좋아요 기반추천
+    my_user_like_movies = []
+    user_like_movies = []
+    # 좋아요 기반 추천
+    like_movies = request.data.get('like_movies')
+    for like_movie in like_movies:
+        movie = get_object_or_404(Movie, pk=like_movie)
+        if not movie in my_user_like_movies:
+            my_user_like_movies.append(movie)
+    # 내가 좋아요 한 것 제거
+    for like_movie in my_user_like_movies:
+        # print(me_like)
+        if like_movie.id not in me_like:
+            user_like_movies.append(like_movie)
+    # print(user_like_movies)
+            
+    
+    # user_genre_serialize = MovieSerializer(user_movies_review, many=True)
+    user_like_serialize = MovieSerializer(user_like_movies, many=True)
+    return Response([favorite_serialize.data, user_like_serialize.data])
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def movie_like(request, movie_pk):
+    user = request.user 
+    movie = get_object_or_404(Movie, pk=movie_pk)
+    if movie.like_users.filter(pk=user.pk).exists():
+        movie.like_users.remove(user)
+        liked = True
+    else:
+        movie.like_users.add(user)
+        liked =False
+    context = {
+        'liked': liked,
+        'count': movie.like_users.count(),
+    }
+    return JsonResponse(context)
+
+@api_view(['POST'])
+def movie_like_users(request, movie_pk):
+  users = []
+  movies = request.data.get('movies')
+
+  for movie in movies:
+    movie = get_object_or_404(Movie, pk=movie)
+    serializer = MovieSerializer(movie)
+
+    for user in serializer.data.get('like_users'):
+      if user not in users:
+        users.append(user)
+    
+  return Response(users)
