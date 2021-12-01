@@ -1,6 +1,6 @@
 <template>
 
-  <div class="container">
+  <div class="container" style="margin-top:50px">
 
     <h2 class="mt-3"> Recommended Movies</h2>
     <div class="row scroll-sect recent-movies">
@@ -311,12 +311,12 @@ main div {
   text-align: center;
   color: #353539;
 }
-/* main span {
+main span {
   padding: .5em 1em;
   margin: .5em;
   display: inline-block;
   background: #dedede;
-} */
+}
 
 .text-center {
   font-family: 'Do Hyeon', sans-serif;

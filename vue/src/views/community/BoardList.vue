@@ -1,12 +1,13 @@
 <template>
   <div>
-    <h1>자유 게시판</h1>
-    <div align="right" style="margin-right:50px">
-      <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal" data-bs-whatever="@getbootstrap">게시글 작성</button>
-    </div>
+    <h1 style="margin-top:50px">자유 게시판</h1>
     <header>
       <div>
         <div class="container" style="width:80%">
+          <div align="right" style="margin-right:50px">
+            <button type="button" class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#exampleModal" data-bs-whatever="@getbootstrap">게시글 작성</button>
+          </div>
+          <br>
           <table class="table mb-5" v-if="boards">
             <thead>
               <tr>
@@ -17,8 +18,8 @@
             </thead>
             <tbody> 
               <tr v-for="board in paginatedData" :key="`board_${board.id}`">
-                <td> {{ board.id}} </td>
-                <td> {{ board.title}} </td>
+                <td class="table-id"> {{ board.id }} </td>
+                <td class="table-title"> {{ board.title }} </td>
                 <td @click="BoardListDetail(board.id)"> Detail </td>
               </tr>
             </tbody>
@@ -39,7 +40,7 @@
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title" id="exampleModalLabel">게시글 작성</h5>
-        <button type="button" class="btn-close" style="margin-right:50px"  data-bs-dismiss="modal" aria-label="Close"></button>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
         <form>
@@ -168,6 +169,13 @@ export default {
 </script>
 
 <style scoped>
+  .table-id {
+    text-align: center;
+    max-width: 1rem;
+  }
+  .table-title {
+    max-width: 3rem;
+  }
   .board-btn {
     margin-left: 10px;
   }

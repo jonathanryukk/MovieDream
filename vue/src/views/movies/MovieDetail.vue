@@ -18,12 +18,12 @@
                               <div class="media">
                                 <label>좋아요</label>
                                   <div class="d-inline-block heart-container ml-3">
-                                    <i class="heart fas fa-heart fa-3x" v-show="like" @click="changeLike" style="color: tomato;" data-toggle="tooltip" data-placement="top">
+                                    <i class="heart fas fa-heart fa-2x" v-show="like" @click="changeLike" style="color: tomato;" data-toggle="tooltip" data-placement="top">
 
                                     </i> 
                                   </div>
                                   <div class="d-inline-block heart-container ml-3">
-                                  <i class="heart far fa-heart fa-3x" v-show="!like" @click="changeLike" style="color: grey;" data-toggle="tooltip" data-placement="top">
+                                  <i class="heart far fa-heart fa-2x" v-show="!like" @click="changeLike" style="color: grey;" data-toggle="tooltip" data-placement="top">
 
                                     </i>
                                   </div>

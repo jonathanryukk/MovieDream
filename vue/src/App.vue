@@ -6,9 +6,9 @@
         <ul class="nav" style="padding: 10px;"> 
           <div class="items">
             <img class="moviedream" src="@/moviedream.png" alt="moviedream" width="50px">
-            <router-link :to="{ name: 'Home' }" class="fas fa-home font-weight-bolder " style="text-decoration:none; margin:10px; font-xize: medium" > Home</router-link> |
-            <router-link :to="{ name: 'Recommend' }" class="fas fa-video font-weight-bolder " style="text-decoration:none; margin:10px"> Recommended Movie</router-link> |
-            <router-link :to="{ name: 'BoardList' }" class="fas fa-comment font-weight-bolder " style="text-decoration:none; margin:10px"> Community</router-link> | 
+            <router-link :to="{ name: 'Home' }" class="fas fa-home font-weight-bolder effect-underline" style="text-decoration:none; margin:10px; font-xize: medium" > Home</router-link> 
+            <router-link :to="{ name: 'Recommend' }" class="fas fa-video font-weight-bolder effect-underline" style="text-decoration:none; margin:10px"> Recommended Movie</router-link> 
+            <router-link :to="{ name: 'BoardList' }" class="fas fa-comment font-weight-boldereffect-underline " style="text-decoration:none; margin:10px"> Community</router-link> 
           </div>
           <div class="items2">
             <div class='search' >
@@ -56,6 +56,10 @@
 
     </div>
     <router-view @login="isLogin=true"/>
+    <footer>
+      <p>copyright: Hyun-Jin Ryu<br>
+      <a href="mailto:h14cdp@naver.com">h14cdp@naver.com</a></p>  
+    </footer>
   </div>
 </template>
 
@@ -79,7 +83,7 @@ export default {
       localStorage.removeItem('jwt')
       this.$router.push({ name: 'Login' })
     },
-        searchSkillAdd(i){
+    searchSkillAdd(i){
       this.keyword =this.result[i]
 
     },
@@ -135,18 +139,34 @@ export default {
   color: #42b983;
 }
 
+.items a {
+  font-size: 20px;
+  transition: .3s all ease-in;
+}
+
+footer {
+  margin-top: 70px;
+  text-align: center;
+  padding: 3px;
+  background-color: white;
+  color: black;
+}
+
+.items a:hover {
+  transform: translateY(-5px);
+}
+
 .nav {
   display: flex;
-  justify-content: space-around;
+  justify-content: space-between;
 }
 
 .items2 {
   display: flex;
 }
 .search_bar {
-  width: 500px;
-  position: relative;
-  margin: 20px;
+  /* position: relative; */
+  margin: 20px 0;
   margin-left: 250px;
   display: flex;
   align-items: center;
