@@ -6,48 +6,32 @@
     </div>
     <header>
       <div>
-        <table class="table table-hover tablesetting">
-          <thead>
-            <tr>
-              <th scope="col">게시글 번호</th>
-              <th scope="col">제목</th>
-              <th scope="col">자세히</th>
-            </tr>
-          </thead>
-          <tbody v-for="board in boards" :key="`board_${board.id}`">
-            <tr class="table-light">
+        <div>
+          <table class="table mb-5" v-if="boards">
+            <thead>
+              <tr>
+                <th scope="col">게시글 번호</th>
+                <th scope="col">제목</th>
+                <th scope="col">자세히</th>
+              </tr>
+            </thead>
+            <tbody> 
+              <tr v-for="board in paginatedData" :key="`board_${board.id}`">
                 <td> {{ board.id}} </td>
                 <td> {{ board.title}} </td>
-                <td> {{ board.created_at}} </td>
                 <td @click="BoardListDetail(board.id)"> Detail </td>
-            </tr>
-          </tbody>
-        </table>
-        <div>
-        <ul class="pagination">
-          <li class="page-item disabled">
-            <a class="page-link" href="#">&laquo;</a>
-          </li>
-          <li class="page-item active">
-            <a class="page-link" href="#">1</a>
-          </li>
-          <li class="page-item">
-            <a class="page-link" href="#">2</a>
-          </li>
-          <li class="page-item">
-            <a class="page-link" href="#">3</a>
-          </li>
-          <li class="page-item">
-            <a class="page-link" href="#">4</a>
-          </li>
-          <li class="page-item">
-            <a class="page-link" href="#">5</a>
-          </li>
-          <li class="page-item">
-            <a class="page-link" href="#">&raquo;</a>
-          </li>
-        </ul>
-      </div>
+              </tr>
+            </tbody>
+          </table>
+          <div class="btn-cover" v-if="paginatedData">
+            <button :disabled="pageNum === 0" @click="prevPage" class="page-btn">이전</button>
+            <span class="page-count">{{ pageNum + 1 }} / {{ pageCount }} 페이지</span>
+            <button :disabled="pageNum >= pageCount - 1" @click="nextPage" class="page-btn">다음</button>
+          </div>
+          <div v-else class="mt-5 text-center">
+            <h3> 게시글를 작성해주세요. </h3>
+          </div>
+        </div>
       </div>
     </header>
   <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -88,9 +72,11 @@ export default {
     return {
       boards: [],
       board1:{
-        title: '',
+      title: '',
       content: '',
-      }
+      },
+      pageNum: 0,
+      pageSize: 10,
     }
   },
   mounted() {
@@ -147,7 +133,32 @@ export default {
           console.log(err)
           
         })
-      }  
+      },
+    nextPage() {
+      this.pageNum += 1;
+    },
+    prevPage() {
+      this.pageNum -= 1;
+    }  
+  },
+  computed: {
+    pageCount() {
+      let listLeng = this.boards.length,
+      listSize = this.pageSize,
+      page = Math.floor(listLeng/listSize);
+
+      if (listLeng % listSize > 0) page += 1;
+      return page;
+    },
+    paginatedData() {
+      if (this.boards.length >= 1){
+        const start = this.pageNum * this.pageSize,
+        end = start + this.pageSize;
+        return this.boards.slice(start, end);
+      } else {
+        return 0
+      }
+    }
   },
   created: function () {
   this.getBoardDetail()

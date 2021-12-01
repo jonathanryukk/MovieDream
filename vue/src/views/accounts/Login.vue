@@ -9,15 +9,13 @@
       <!-- Login Form -->
       <form>
         <input type="text" id="username" placeholder="username" v-model="credentials.username">
-        <input type="text" id="password" placeholder="password" v-model="credentials.password" @keypress.enter="login(credentials)">
+        <input type="password" id="password" placeholder="password" v-model="credentials.password" @keypress.enter="login(credentials)">
       </form>
         <button @click="login">로그인</button>
 
       <!-- Remind Passowrd -->
       <div id="formFooter">
-        <a class="underlineHover" href="#">Forgot Password? |
-        </a>
-          <router-link :to="{ name: 'Signup' }" style="color:#0d6efd;">회원가입</router-link>
+        <router-link :to="{ name: 'Signup' }" style="color:#0d6efd;">회원가입</router-link>
       </div>
 
     </div>
@@ -176,6 +174,37 @@ input[type=text]:focus {
 input[type=text]:placeholder {
   color: #cccccc;
 }
+
+input[type=password] {
+  background-color: #f6f6f6;
+  border: none;
+  color: #0d0d0d;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 5px;
+  width: 85%;
+  border: 2px solid #f6f6f6;
+  -webkit-transition: all 0.5s ease-in-out;
+  -moz-transition: all 0.5s ease-in-out;
+  -ms-transition: all 0.5s ease-in-out;
+  -o-transition: all 0.5s ease-in-out;
+  transition: all 0.5s ease-in-out;
+  -webkit-border-radius: 5px 5px 5px 5px;
+  border-radius: 5px 5px 5px 5px;
+}
+
+input[type=password]:focus {
+  background-color: #fff;
+  border-bottom: 2px solid #5fbae9;
+}
+
+input[type=password]:placeholder {
+  color: #cccccc;
+}
+
 
 
 

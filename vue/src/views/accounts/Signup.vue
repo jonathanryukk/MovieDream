@@ -9,8 +9,8 @@
       <!-- Login Form -->
       <form>
         <input type="text" id="username" placeholder="username" v-model="credentials.username">
-        <input type="text" id="password" placeholder="password" v-model="credentials.password">
-        <input type="text" id="passwordConfirmation" placeholder="password confirmation" v-model="credentials.passwordConfirmation" @keypress.enter="login(credentials)">
+        <input type="password" id="password" placeholder="password" v-model="credentials.password">
+        <input type="password" id="passwordConfirmation" placeholder="password confirmation" v-model="credentials.passwordConfirmation" @keypress.enter="login(credentials)">
       </form>
 
       <!-- Remind Passowrd -->
