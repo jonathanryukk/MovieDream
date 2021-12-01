@@ -10,6 +10,7 @@
             <router-link :to="{ name: 'Recommend' }" class="fas fa-video font-weight-bolder " style="text-decoration:none; margin:10px"> Recommended Movie</router-link> |
             <router-link :to="{ name: 'BoardList' }" class="fas fa-comment font-weight-bolder " style="text-decoration:none; margin:10px"> Community</router-link> | 
           </div>
+          <div class="items2">
             <div class='search' >
               <div class='search_bar'>
                 <input @keypress.enter="onInputSearch(keyword)" @input="submitAutoComplete" placeholder='영화제목 입력 후 enter!' type='text' v-model="keyword" autofocus >
@@ -28,20 +29,21 @@
               </div>
             </div>
 
-          <div class="dropdown">
-            <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenu2" data-bs-toggle="dropdown" aria-expanded="false">
-              내 정보 
-            </button>
-            <ul class="dropdown-menu" aria-labelledby="dropdownMenu2">
-              <li class="dropdown-menu2">
-                <button class="dropdown-item" type="button" ></button>
-                <router-link @click.native="logout" to="#" style="text-decoration:none;" >로그아웃</router-link> 
-              </li>
-              <li class="dropdown-menu2">
-                <button class="dropdown-item" type="button" ></button>
-                <router-link :to="{ name: 'Profile' }" style="text-decoration:none;" >프로필</router-link> 
-              </li>
-            </ul>
+            <div class="dropdown">
+              <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenu2" data-bs-toggle="dropdown" aria-expanded="false">
+                내 정보 
+              </button>
+              <ul class="dropdown-menu" aria-labelledby="dropdownMenu2">
+                <li class="dropdown-menu2">
+                  <button class="dropdown-item" type="button" ></button>
+                  <router-link @click.native="logout" to="#" style="text-decoration:none;" >로그아웃</router-link> 
+                </li>
+                <li class="dropdown-menu2">
+                  <button class="dropdown-item" type="button" ></button>
+                  <router-link :to="{ name: 'Profile' }" style="text-decoration:none;" >프로필</router-link> 
+                </li>
+              </ul>
+            </div>
           </div>
         </ul>
       </div>
@@ -133,7 +135,14 @@ export default {
   color: #42b983;
 }
 
+.nav {
+  display: flex;
+  justify-content: space-around;
+}
 
+.items2 {
+  display: flex;
+}
 .search_bar {
   width: 500px;
   position: relative;

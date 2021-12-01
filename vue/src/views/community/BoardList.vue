@@ -6,7 +6,7 @@
     </div>
     <header>
       <div>
-        <div>
+        <div class="container" style="width:80%">
           <table class="table mb-5" v-if="boards">
             <thead>
               <tr>
@@ -39,7 +39,7 @@
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title" id="exampleModalLabel">게시글 작성</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        <button type="button" class="btn-close" style="margin-right:50px"  data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
         <form>
