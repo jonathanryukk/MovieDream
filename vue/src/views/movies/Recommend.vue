@@ -311,12 +311,12 @@ main div {
   text-align: center;
   color: #353539;
 }
-main span {
+/* main span {
   padding: .5em 1em;
   margin: .5em;
   display: inline-block;
   background: #dedede;
-}
+} */
 
 .text-center {
   font-family: 'Do Hyeon', sans-serif;
