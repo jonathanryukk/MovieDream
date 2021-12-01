@@ -8,6 +8,9 @@ import BoardListDetail from '@/views/community/BoardListDetail'
 import BoardCreate from '@/views/community/BoardCreate'
 import Profile from '@/views/accounts/Profile'
 import SearchBar from '@/views/SearchBar'
+import Movies from '@/views/movies/Movies'
+import Recommend from '@/views/movies/Recommend'
+import MovieDetail from '@/views/movies/MovieDetail'
 
 Vue.use(VueRouter)
 
@@ -51,7 +54,23 @@ const routes = [
     path: '/accounts/profile/',
     name: 'Profile',
     component: Profile
-  }
+  },
+  {
+    path: '/movies/',
+    name: 'Movies',
+    component: Movies
+  },
+  {  
+    path: '/recommend/',
+    name: 'Recommend',
+    component: Recommend
+  },
+
+  {  
+    path: '/movies/:movieId',
+    name: 'MovieDetail',
+    component: MovieDetail
+  },
 ]
 
 const router = new VueRouter({

@@ -73,41 +73,19 @@ def review_update_delete(request, review_pk):
 
 @api_view(['POST'])
 def recommend(request):
-    me_like = request.data.get('me_like')
+
 
     # 인기순
     favorite_movies = Movie.objects.all().order_by('-vote_average')[:10]
     favorite_serialize = MovieSerializer(favorite_movies, many=True)
-    # 리뷰 기반 장르기반 추천
-    user_movies_review = []
 
-    # 리뷰 기반 장름별
-    reviews = Review.objects.all()
-    for review in reviews:
-        movie = Movie.objects.get(pk=review.movie_id)
-        if not movie in user_movies_review:
-            user_movies_review.append(movie)
 
-    # 좋아요 기반추천
-    my_user_like_movies = []
-    user_like_movies = []
-    # 좋아요 기반 추천
-    like_movies = request.data.get('like_movies')
-    for like_movie in like_movies:
-        movie = get_object_or_404(Movie, pk=like_movie)
-        if not movie in my_user_like_movies:
-            my_user_like_movies.append(movie)
-    # 내가 좋아요 한 것 제거
-    for like_movie in my_user_like_movies:
-        # print(me_like)
-        if like_movie.id not in me_like:
-            user_like_movies.append(like_movie)
-    # print(user_like_movies)
-            
-    
-    # user_genre_serialize = MovieSerializer(user_movies_review, many=True)
-    user_like_serialize = MovieSerializer(user_like_movies, many=True)
-    return Response([favorite_serialize.data, user_like_serialize.data])
+    # 개봉순
+    recent_movies = Movie.objects.all().order_by('-release_date')[:10]
+    recent_serialize = MovieSerializer(recent_movies, many=True)
+
+    return Response([favorite_serialize.data, recent_serialize.data] )
+
 
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
@@ -120,11 +98,14 @@ def movie_like(request, movie_pk):
     else:
         movie.like_users.add(user)
         liked =False
-    context = {
-        'liked': liked,
-        'count': movie.like_users.count(),
-    }
-    return JsonResponse(context)
+    return Response(liked)
+
+@api_view(['GET'])
+def like_state(request, movie_pk, user_pk):
+    user = get_object_or_404(get_user_model(), pk=user_pk)
+    state = user.like_movies.filter(pk=movie_pk).exists()
+ 
+    return Response(state)
 
 @api_view(['POST'])
 def movie_like_users(request, movie_pk):

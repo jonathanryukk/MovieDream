@@ -10,14 +10,14 @@
       <form>
         <input type="text" id="username" placeholder="username" v-model="credentials.username">
         <input type="text" id="password" placeholder="password" v-model="credentials.password" @keypress.enter="login(credentials)">
-        <button @click="login">로그인</button>
       </form>
+        <button @click="login">로그인</button>
 
       <!-- Remind Passowrd -->
       <div id="formFooter">
         <a class="underlineHover" href="#">Forgot Password? |
-          <router-link :to="{ name: 'Signup' }" style="color:#e0435e;">회원가입</router-link>
         </a>
+          <router-link :to="{ name: 'Signup' }" style="color:#0d6efd;">회원가입</router-link>
       </div>
 
     </div>

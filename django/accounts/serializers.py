@@ -1,6 +1,9 @@
+from django.db.models import fields
 from rest_framework import serializers
 from django.contrib.auth import get_user_model
-from .models import User
+
+from movies.models import Movie
+
 
 class UserSerializer(serializers.ModelSerializer):
     password = serializers.CharField(write_only=True)
@@ -16,11 +19,12 @@ class ProfileSerializer(serializers.ModelSerializer):
             fields = ('followers', 'username')
     followers = UserSerializer(many=True)
 
-    class UserSerializer(serializers.ModelSerializer):
-        class Meta:
-            model = get_user_model()
-            fields = ('followers', 'username')
 
+    class MovieSerializer(serializers.ModelSerializer):
+        class Meta:
+            model = Movie
+            fields = ('like_users', 'title', 'poster_path')
+    like_movies = MovieSerializer(many=True)
     followings = UserSerializer(many=True)
     class Meta:
         model = get_user_model()

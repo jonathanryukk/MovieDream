@@ -58,8 +58,8 @@ def board_detail_or_update_or_delete(request, board_pk):
 @api_view(['GET', 'POST'])
 @authentication_classes([JSONWebTokenAuthentication])
 @permission_classes([IsAuthenticated])
-def board_comment_list_or_create(request, article_pk):
-    board = get_object_or_404(Board, pk=article_pk)
+def board_comment_list_or_create(request, board_pk):
+    board = get_object_or_404(Board, pk=board_pk)
     print('hello')
     if request.method=='GET':
         comments = board.comments.all()
