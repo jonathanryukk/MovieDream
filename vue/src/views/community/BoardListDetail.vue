@@ -1,17 +1,33 @@
 <template>
   <div>
-    <h1>Detail</h1>
-      <div class="card text-black bg-white mb-3" style="max-width: 150rem; margin-left:300px; margin-right:300px; margin-top:20px;">
-        <h3 class="card-header">제목 :  {{ boardDetail.title }}</h3>
-        <div class="card-body">
-          <p class="card-title"> {{ boardDetail.created_at }}</p>
-          <p class="card-text"> 내용 : {{ boardDetail.content }} </p>
-          <h4>Comment</h4>
-          <div v-for="(comment, idx) in comments" :key="idx">
-            {{comment.content}} 
-          </div>
-        </div>
+    <h1 style="margin-top:50px">게시글 상세보기</h1>
+    <div class="card text-black bg-white mb-3" style="max-width: 150rem; margin-left:300px; margin-right:300px; margin-top:50px;">
+      <h3 class="card-header"> {{ boardDetail.title }}</h3>
+      <div class="card-body">
+        <p class="card-title"> {{ boardDetail.created_at }}</p>
+        <p class="card-text comment-card1" > 내용 : 
+          <br>{{ boardDetail.content }} </p>
+          <section class="mb-5" style="margin-top:150px">
+              <div class="card bg-light">
+                  <div class="card-body">
+                      <!-- Comment form-->
+                      <form class="mb-4"><textarea class="form-control" rows="3" placeholder="댓글을 입력후 enter을 눌러주세요." v-model="comment_content" @keypress.enter="createComment" ></textarea></form>
+                      <!-- Comment with nested comments-->
+                      <div class="d-flex mb-4">
+                        <div v-for="(comment, idx) in comments" :key="idx">
+                          <!-- Parent comment-->
+                          <div class="flex-shrink-0"><img class="rounded-circle" src="https://dummyimage.com/50x50/ced4da/6c757d.jpg" alt="..." /></div>
+                          <div class="ms-3">
+                              <div class="fw-bold">익명의 사용자</div>
+                               {{comment.content}} 
+                          </div>
+                      </div>
+                  </div>
+              </div>
+            </div>
+          </section>
       </div>
+    </div>
   </div>
   
 </template>
@@ -78,7 +94,7 @@ export default {
         content: this.comment_content,
       }
       if (commentItem.content) {
-          axios.post(`http://127.0.0.1:8000/community/${this.boardId}/comments/`, commentItem, config)
+          axios.post(`http://127.0.0.1:8000/community/${this.boardId}/board_comment_list_or_create/`, commentItem, config)
           .then( () => {
             this.getComments()
             this.comment_content = ''
@@ -106,5 +122,16 @@ export default {
 </script>
 
 <style>
+
+
+	.tbAdd{border-top:1px solid #888;}
+	.tbAdd th, .tbAdd td{border-bottom:1px solid #eee; padding:5px 0; }
+	.tbAdd td{padding:10px 10px; box-sizing:border-box; text-align:left;}
+	.tbAdd td.txt_cont{height:300px; vertical-align:top;}
+	.btnWrap{text-align:center; margin:20px 0 0 0;}
+	.btnWrap a{margin:0 10px;}
+	.btnAdd {background:#43b984}
+	.btnDelete{background:#f00;}
+
 
 </style>

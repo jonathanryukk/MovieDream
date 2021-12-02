@@ -100,7 +100,7 @@ export default {
     },
 
     onInputSearch: function (keyword) {
-     this.$router.push({name: 'SearchBar', query: {keyword: keyword}})
+      this.$router.push({name: 'SearchBar', query: {keyword: keyword}})
       this.keyword = ''
       
     },
