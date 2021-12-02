@@ -28,21 +28,21 @@
                 </div>  
               </div>
             </div>
-<li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-            <i class="fas fa-user"></i>
-          </a>
-          <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-            <li>
-              <a class="dropdown-item" href="#"><i class="fas fa-sliders-h fa-fw"></i>
-            <router-link @click.native="profile" to="#" style="text-decoration:none;" >Profile</router-link>
+            <li class="nav-item dropdown">  
+              <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                <i class="fas fa-user"></i>
               </a>
+              <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                <li>
+                  <a class="dropdown-item" href="#"><i class="fas fa-sliders-h fa-fw"></i>
+                <router-link :to="{ name: 'Profile' }" style="text-decoration:none;" >Profile</router-link>
+                  </a>
+                </li>
+                <li><hr class="dropdown-divider"></li>
+                <li><a class="dropdown-item" href="#"><i class="fas fa-sign-out-alt fa-fw"></i> 
+                <router-link @click.native="logout" to="#" style="text-decoration:none;" >Log out</router-link></a></li>
+              </ul>
             </li>
-            <li><hr class="dropdown-divider"></li>
-            <li><a class="dropdown-item" href="#"><i class="fas fa-sign-out-alt fa-fw"></i> 
-            <router-link @click.native="logout" to="#" style="text-decoration:none;" >Log out</router-link></a></li>
-          </ul>
-        </li>
             <!-- <div class="dropdown">
               <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenu2" data-bs-toggle="dropdown" aria-expanded="false">
                 내 정보 
