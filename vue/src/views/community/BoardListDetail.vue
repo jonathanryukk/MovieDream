@@ -10,12 +10,9 @@
           <section class="mb-5" style="margin-top:150px">
               <div class="card bg-light">
                   <div class="card-body">
-                      <!-- Comment form-->
                       <form class="mb-4"><textarea class="form-control" rows="3" placeholder="댓글을 입력후 enter을 눌러주세요." v-model="comment_content" @keypress.enter="createComment" ></textarea></form>
-                      <!-- Comment with nested comments-->
                       <div class="d-flex mb-4">
                         <div v-for="(comment, idx) in comments" :key="idx">
-                          <!-- Parent comment-->
                           <div class="flex-shrink-0"><img class="rounded-circle" src="https://dummyimage.com/50x50/ced4da/6c757d.jpg" alt="..." /></div>
                           <div class="ms-3">
                               <div class="fw-bold">익명의 사용자</div>
@@ -26,6 +23,7 @@
               </div>
             </div>
           </section>
+        <button @click="deleteBoard">delete</button>
       </div>
     </div>
   </div>
@@ -104,6 +102,32 @@ export default {
           })
         }
     },
+    deleteBoard: function () {
+      axios({
+        method: 'delete',
+        url: `http://127.0.0.1:8000/community/${this.boardId}/`,
+        headers: this.setToken() // Authorization: JWT tokensdjiadnoiqwnd
+      })
+        .then(res => {
+          console.log(res)
+          this.boardDetail = res.data
+        })
+        .catch(err => {
+          console.log(err)
+        })
+    },
+    updateBoard: function () {
+      const config = this.setToken()
+      axios.put(`http://127.0.0.1:8000/community/`, this.board1, config)
+        .then(() => {
+          this.BoardListDetail(this.boards[this.boards.length -1].id)
+        })
+        .catch((err) => {
+          console.log('게시글 작성에 실패하였습니다.')
+          console.log(err)
+          
+        })
+      },
   },
   computed: {
     commentsList: function () {

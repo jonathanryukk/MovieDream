@@ -51,6 +51,15 @@ export default {
         })
         .catch(err => {
           console.log(err)
+          if (this.credentials.password!==this.credentials.passwordConfirmation){
+            alert('비밀번호를 다시 확인해주세요.')
+          }
+          else if(this.credentials.password.length <= 8){
+            alert('비밀번호가 너무 짧습니다.')
+          }
+          else{
+            alert('아이디가 이미 존재합니다.')
+          }
         })
     }
   }

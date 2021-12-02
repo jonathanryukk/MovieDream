@@ -28,22 +28,36 @@
                 </div>  
               </div>
             </div>
-
-            <div class="dropdown">
+<li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            <i class="fas fa-user"></i>
+          </a>
+          <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+            <li>
+              <a class="dropdown-item" href="#"><i class="fas fa-sliders-h fa-fw"></i>
+            <router-link @click.native="profile" to="#" style="text-decoration:none;" >Profile</router-link>
+              </a>
+            </li>
+            <li><hr class="dropdown-divider"></li>
+            <li><a class="dropdown-item" href="#"><i class="fas fa-sign-out-alt fa-fw"></i> 
+            <router-link @click.native="logout" to="#" style="text-decoration:none;" >Log out</router-link></a></li>
+          </ul>
+        </li>
+            <!-- <div class="dropdown">
               <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenu2" data-bs-toggle="dropdown" aria-expanded="false">
                 내 정보 
               </button>
               <ul class="dropdown-menu" aria-labelledby="dropdownMenu2">
                 <li class="dropdown-menu2">
                   <button class="dropdown-item" type="button" ></button>
-                  <router-link @click.native="logout" to="#" style="text-decoration:none;" >로그아웃</router-link> 
+                  <router-link @click.native="logout" to="#" style="text-decoration:none;" ></router-link> 
                 </li>
                 <li class="dropdown-menu2">
                   <button class="dropdown-item" type="button" ></button>
                   <router-link :to="{ name: 'Profile' }" style="text-decoration:none;" >프로필</router-link> 
                 </li>
               </ul>
-            </div>
+            </div> -->
           </div>
         </ul>
       </div>
@@ -59,6 +73,11 @@
     <footer>
       <p>copyright: Hyun-Jin Ryu<br>
       <a href="mailto:h14cdp@naver.com">h14cdp@naver.com</a></p>  
+      <div class="social-icons">
+            <div class="d-flex flex-row flex-lg-column justify-content-center align-items-center h-100 mt-3 mt-lg-0">
+                <a class="btn btn-dark m-3" href="https://github.com/jonathanryukk"><i class="fab fa-github"></i></a>
+            </div>
+      </div>
     </footer>
   </div>
 </template>
@@ -202,5 +221,19 @@ footer {
 }
 
 
+.profile-menu.dropdown-menu{
+    right: 0;
+    left: unset;
+  }
+  .fa-fw{
+    margin-right: 10px;
+  }  
+
+.toggle-change{
+&::after {
+    border-top: 0;
+    border-bottom: .3em solid;
+    }
+} 
 
 </style>
