@@ -18,12 +18,12 @@
                               <div class="media">
                                 <label>좋아요</label>
                                   <div class="d-inline-block heart-container ml-3">
-                                    <i class="heart fas fa-heart fa-2x" v-show="like" @click="changeLike" style="color: tomato;" data-toggle="tooltip" data-placement="top">
+                                    <i class="heart fas fa-heart fa-3x" v-show="like" @click="changeLike" style="color: tomato;" data-toggle="tooltip" data-placement="top">
 
                                     </i> 
                                   </div>
                                   <div class="d-inline-block heart-container ml-3">
-                                  <i class="heart far fa-heart fa-2x" v-show="!like" @click="changeLike" style="color: grey;" data-toggle="tooltip" data-placement="top">
+                                  <i class="heart far fa-heart fa-3x" v-show="!like" @click="changeLike" style="color: grey;" data-toggle="tooltip" data-placement="top">
 
                                     </i>
                                   </div>
@@ -59,13 +59,19 @@
                 <th scope="col">작성자</th>
                 <th scope="col">내용</th>
                 <th scope="col">점수</th>
+                <th scope="col"></th>
               </tr>
             </thead>
             <tbody>
               <tr v-for="review in paginatedData" :key="review.id" >
-                <td data-label="Username">{{ user.username }}</td>
+                <td data-label="Username">{{ review.userName }}</td>
                 <td data-label="Title"> {{ review.content }}</td>
                 <td data-label="Rating"><i class="fas fa-star" style="color: #345389"></i> {{ review.rank }}</td>
+                <td width="200">
+                  <button type="button" class="btn btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#modifyModal" data-bs-whatever="@getbootstrap" @click="getReviewId(review.id)">수정</button>
+                  &nbsp;&nbsp;
+                  <button type="button" class="btn btn-outline-danger" @click="deleteReview(review.id)">삭제</button>
+                </td>
               </tr>
             </tbody>
           </table>
@@ -78,13 +84,15 @@
             <h3> 리뷰를 작성해주세요! </h3>
           </div>
           <div align="right" style="margin-right:50px">
-            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal" data-bs-whatever="@getbootstrap">게시글 작성</button>
+            <button type="button" class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#createModal" data-bs-whatever="@getbootstrap">리뷰 작성</button>
           </div>
-          <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+          <div style="padding:10px;">
+          </div>
+          <div class="modal fade" id="createModal" tabindex="-1" aria-labelledby="createModalLabel" aria-hidden="true">
           <div class="modal-dialog">
             <div class="modal-content">
               <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">리뷰 작성</h5>
+                <h5 class="modal-title" id="createModalLabel">리뷰 작성</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
               </div>
               <div class="modal-body">
@@ -105,7 +113,33 @@
                   </div>
                 </div>
               </div>
-        </div>
+          </div>
+          <div class="modal fade" id="modifyModal" tabindex="-1" aria-labelledby="modifyModalLabel" aria-hidden="true">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="modifyModalLabel">리뷰 작성</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <div class="modal-body">
+                <form>
+                  <div class="mb-3">
+                    <label for="message-text" class="col-form-label">내용:</label>
+                    <textarea type="text" class="form-control" v-model.trim="review.content" id="message-text"></textarea>
+                  </div>
+                  <div class="mb-3">
+                    <label for="review-rank" class="col-form-label">점수:</label>
+                    <input type="number" min="0" max="10" step="1" id="review-rank" v-model.trim="review.rank"  >
+                  </div>
+                </form>
+              </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                  <button type="button" class="btn btn-primary" @click="updateReview()" data-bs-dismiss="modal">작성</button>
+                </div>
+              </div>
+            </div>
+          </div>
       </div>
     </div>
 </template>
@@ -125,6 +159,7 @@ export default {
       reviews : [],
       pageNum: 0,
       pageSize: 10,
+      review_id : 0,
       review:{
         content:'',
         rank:'',
@@ -145,6 +180,11 @@ export default {
       }
       return config
     },
+    getReviewId(review_id) {
+      this.review_id = review_id
+
+    },
+    
     getReviews() {
       const config = this.getToken()
       axios.get('http://127.0.0.1:8000/movies/' + this.$route.params.movieId +'/reviews/', config)
@@ -159,14 +199,44 @@ export default {
       axios.post('http://127.0.0.1:8000/movies/'+ this.$route.params.movieId +'/reviews/create/' ,this.review, config)
         .then((res) => {
           console.log(res)
-          // this.$router.push({ name: 'MovieDetail' })
+          this.$router.go(this.$router.currentRoute)
         })
         .catch((err) => {
-          console.log('게시글 작성에 실패하였습니다.')
           console.log(err)
+          console.log('게시글 생성에 실패하였습니다.')
           
         })
-    },  
+    },
+    deleteReview(review_id) {
+      const config = this.getToken()
+      axios.delete('http://127.0.0.1:8000/movies/'+ 'review/' + review_id + '/' , config)
+        .then((res) => {
+          console.log(res)
+          alert('삭제되었습니다.')
+          this.$router.go(this.$router.currentRoute)
+
+        })
+        .catch((err) => {
+          console.log(err)
+          alert('게시글 작성자만 삭제할 수 있습니다.')
+          
+        })
+    },      
+    updateReview() {
+      const config = this.getToken()
+      axios.put('http://127.0.0.1:8000/movies/'+ 'review/' + this.review_id + '/' ,this.review, config)
+        .then((res) => {
+          console.log(res)
+          this.$router.go(this.$router.currentRoute)
+        })
+        .catch((err) => {
+          console.log(err)
+          alert('게시글 작성자만 수정할 수 있습니다.')
+          
+        })
+    },
+      
+
     getUser() {
       const config = this.getToken()
       const hash = localStorage.getItem('jwt')

@@ -111,9 +111,11 @@ export default {
         .then(res => {
           console.log(res)
           this.boardDetail = res.data
+          alert('게시글이 삭제되었습니다.')
         })
         .catch(err => {
           console.log(err)
+          alert('게시글 삭제가 실패했습니다.')
         })
     },
     updateBoard: function () {
@@ -123,7 +125,7 @@ export default {
           this.BoardListDetail(this.boards[this.boards.length -1].id)
         })
         .catch((err) => {
-          console.log('게시글 작성에 실패하였습니다.')
+          console.log('게시글 수정에 실패하였습니다.')
           console.log(err)
           
         })
