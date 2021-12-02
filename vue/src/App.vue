@@ -43,21 +43,6 @@
                 <router-link @click.native="logout" to="#" style="text-decoration:none;" >Log out</router-link></a></li>
               </ul>
             </li>
-            <!-- <div class="dropdown">
-              <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenu2" data-bs-toggle="dropdown" aria-expanded="false">
-                내 정보 
-              </button>
-              <ul class="dropdown-menu" aria-labelledby="dropdownMenu2">
-                <li class="dropdown-menu2">
-                  <button class="dropdown-item" type="button" ></button>
-                  <router-link @click.native="logout" to="#" style="text-decoration:none;" ></router-link> 
-                </li>
-                <li class="dropdown-menu2">
-                  <button class="dropdown-item" type="button" ></button>
-                  <router-link :to="{ name: 'Profile' }" style="text-decoration:none;" >프로필</router-link> 
-                </li>
-              </ul>
-            </div> -->
           </div>
         </ul>
       </div>

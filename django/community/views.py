@@ -6,7 +6,7 @@ from rest_framework.response import Response
 from rest_framework_jwt.authentication import JSONWebTokenAuthentication
 
 from .models import Board, BoardComment
-
+from django.http import JsonResponse
 from .serializers import BoardSerializer, BoardListSerializer, BoardCommentSerializer
 
 
@@ -44,8 +44,11 @@ def board_detail_or_update_or_delete(request, board_pk):
             return Response(serializer.data)
 
     def delete_board():
-        board.delete()
-        return Response(data='delete successfully', status=status.HTTP_204_NO_CONTENT)
+        if request.user == board.user:
+            board.delete()
+            return Response(data='delete successfully', status=status.HTTP_204_NO_CONTENT)
+        else:
+            return JsonResponse({'message':'게시글을 작성한 유저만 삭제할 수 있습니다.', 'success': False })
 
     if request.method == 'GET':
         return board_detail()
