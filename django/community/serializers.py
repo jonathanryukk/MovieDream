@@ -5,15 +5,25 @@ from .models import Board, BoardComment
 
 
 class BoardListSerializer(serializers.ModelSerializer):
+    username = serializers.SerializerMethodField()
+  
+    def get_username(self,obj):
+        return obj.user.username
     class Meta: 
         model = Board
-        fields = ('id','title',)
+        fields = ('id','title','user','username')
+        read_only_fields = ('user',)
 
 class BoardSerializer(serializers.ModelSerializer):
+    username = serializers.SerializerMethodField()
+    def get_username(self,obj):
+        return obj.user.username
+    created_at = serializers.DateTimeField(format="%Y-%m-%d %H:%M")
+    updated_at = serializers.DateTimeField(format="%Y-%m-%d %H:%M")
     class Meta: 
         model = Board
-        fields = ('id','title', 'content', 'user', 'created_at', 'updated_at')
-        read_only_fields = ('user', 'created_at', 'updated_at',)
+        fields = ('id','title', 'username','content', 'user', 'created_at', 'updated_at')
+        read_only_fields = ('user','username', 'created_at', 'updated_at',)
 
 class BoardCommentSerializer(serializers.ModelSerializer):
     class Meta:
