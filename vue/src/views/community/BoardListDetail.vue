@@ -5,6 +5,7 @@
       <h3 class="card-header"> {{ boardDetail.title }}</h3>
       <div class="card-body">
         <p class="card-title"> {{ boardDetail.created_at }}</p>
+        <p class="card-text comment-card1" > 작성자 : {{ boardDetail.username }} </p>
         <p class="card-text comment-card1" > 내용 : 
           <br>{{ boardDetail.content }} </p>
           <section class="mb-5" style="margin-top:150px">

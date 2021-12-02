@@ -11,6 +11,7 @@
           <table class="table mb-5" v-if="boards">
             <thead>
               <tr>
+                <th scope="col">작성자</th>
                 <th scope="col">게시글 번호</th>
                 <th scope="col">제목</th>
                 <th scope="col">자세히</th>
@@ -18,6 +19,7 @@
             </thead>
             <tbody> 
               <tr v-for="board in paginatedData" :key="`board_${board.id}`">
+                <td class="table-id"> {{ board.username }} </td>
                 <td class="table-id"> {{ board.id }} </td>
                 <td class="table-title"> {{ board.title }} </td>
                 <td @click="BoardListDetail(board.id)"> Detail </td>
