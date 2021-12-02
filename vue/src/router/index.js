@@ -10,6 +10,7 @@ import Profile from '@/views/accounts/Profile'
 import SearchBar from '@/views/SearchBar'
 import Recommend from '@/views/movies/Recommend'
 import MovieDetail from '@/views/movies/MovieDetail'
+import Search from '@/views/movies/Search'
 
 Vue.use(VueRouter)
 
@@ -65,6 +66,12 @@ const routes = [
     name: 'MovieDetail',
     component: MovieDetail
   },
+  {
+    path: '/search?query=:query',
+    name: 'Search',
+    component: Search,
+    props: true
+  }
 ]
 
 const router = new VueRouter({

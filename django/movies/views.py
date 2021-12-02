@@ -1,13 +1,13 @@
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
-
+from django.db.models import Q
 from django.shortcuts import  get_object_or_404
 from .models import Movie, Review, UserRank
 from django.contrib.auth import get_user_model
 from django.http import JsonResponse
 
 from django.conf import settings
-from .serializers import  MovieSerializer, ReviewListSerializer, ReviewSerializer
+from .serializers import  MovieSerializer, ReviewListSerializer, ReviewSerializer, SearchSerializer
 from rest_framework.decorators import authentication_classes, permission_classes
 from rest_framework.permissions import IsAuthenticated
 from rest_framework_jwt.authentication import JSONWebTokenAuthentication
@@ -121,3 +121,16 @@ def movie_like_users(request, movie_pk):
         users.append(user)
     
   return Response(users)
+
+
+
+@api_view(['GET'])
+def search(request):
+    q = request.GET.get('query')
+    if q:
+        movie = Movie.objects.filter(Q(title__icontains=q) | Q(overview__icontains=q)) 
+        if movie:
+            serializer = SearchSerializer(movie, many=True)
+            return Response(serializer.data)
+
+    return Response({'message': '검색결과가 없습니다.'})

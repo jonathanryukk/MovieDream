@@ -1,3 +1,4 @@
+from django.db.models import fields
 from rest_framework import serializers
 from .models import Movie, Review, UserRank
 
@@ -36,3 +37,8 @@ class MovieSerializer(serializers.ModelSerializer):
         model = Movie
         fields = '__all__'
         read_only_fields = ('like_users', 'user_rank')
+
+class SearchSerializer(serializers.ModelSerializer):
+    class Meta:
+      model: Movie
+      fields = ('title', 'poster_path','id')
