@@ -42,15 +42,18 @@ export default {
   methods: {
     search() {
       console.log(this.query)
-      // const config = this.getToken()
-      axios.get('http://127.0.0.1:8000/movies/search/', this.query)
+      const data2 = {
+        query : this.query
+      }
+      const config = this.getToken()
+      axios.post('http://127.0.0.1:8000/movies/search/', data2, config)
         .then( (res) => {
-          this.console.log(res)
+          console.log(res)
           this.searchData = res.data
           this.query=""
         })
         .catch(err => {
-          console.log(err.response.data)
+          console.log(err)
           console.log("THIS IS SOMEHOW AN ERROR")
           })
     },

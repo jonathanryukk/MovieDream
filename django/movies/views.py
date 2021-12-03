@@ -124,9 +124,9 @@ def movie_like_users(request, movie_pk):
 
 
 
-@api_view(['GET'])
+@api_view(['post'])
 def search(request):
-    q = request.GET.get('query')
+    q = request.data.get('query')
     if q:
         movie = Movie.objects.filter(Q(title__icontains=q) | Q(overview__icontains=q)) 
         if movie:

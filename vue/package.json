@@ -16,7 +16,8 @@
     "vue": "^2.6.11",
     "vue-cookies": "^1.7.4",
     "vue-jwt-decode": "^0.1.0",
-    "vue-router": "^3.5.3"
+    "vue-router": "^3.5.3",
+    "vue-swal": "^1.0.0"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "~4.5.0",
