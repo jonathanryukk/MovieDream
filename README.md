@@ -342,9 +342,7 @@ iii. 필요한 경우 Ajax를 활용한 비동기 요청을 통해 사용자 경
 
 # 프로젝트 시연영상
 
-<video src="video/시연영상.mp4"></video>
-
-
+<video src="https://user-images.githubusercontent.com/87456351/146037690-ebc3b2b0-3b3f-4e66-964b-9a76b62db753.mp4"></video>
 
 
 
