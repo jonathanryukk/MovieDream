@@ -31,6 +31,21 @@
         </div>
       </div>
     </div>
+
+    <h2 class="mt-3"> recommend movies</h2>
+    <div class="row scroll-sect recent-movies">
+      <div class="row-inner">
+        <div class="tile"  v-for="movie in recommend_movie_list" :key="movie.id" @click="detail(movie.id)">
+          <div class="tile-media" >
+            <img class="tapmovie" :src="`https://image.tmdb.org/t/p/original${movie.poster_path}`">
+          </div>
+          <div class="text-center">
+            <h5 class="movie-title">{{ movie.title }}</h5>
+          </div>
+        </div>
+      </div>
+    </div>
+
   </div>
 </template>
 
@@ -47,6 +62,7 @@ export default {
       user: '',
       popular_movie_list: [],
       recent_movie_list: [],
+      recommend_movie_list: [],
 
     }
   },
@@ -75,6 +91,7 @@ export default {
         console.log(res)
         this.popular_movie_list = res.data[0]
         this.recent_movie_list = res.data[1]
+        this.recommend_movie_list = res.data[2]
       })
     },
     getUser: function () {
