@@ -372,7 +372,9 @@ iii. 필요한 경우 Ajax를 활용한 비동기 요청을 통해 사용자 경
 
 # 배포 
 
->AWS CLOUD를 이용한 EC2 WINDOWS 환경을 통한 배포
+>AWS CLOUD를 이용한 EC2, WINDOWS 환경을 통한 배포
+>
+>
 
 
 
